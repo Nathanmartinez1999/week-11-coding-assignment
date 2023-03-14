@@ -1,50 +1,65 @@
-console.log(`We are working with JQuery today!`);
+const gameBoard = document.querySelector('#gameboard')
+const infoDisplay = document.querySelector('#info')
+const startCells = [
+    '', '', '', '', '', '', '', '', ''
+]
+let go = 'circle'
+infoDisplay.textContent = 'circle will start the game'
 
-const play = $('#play');
-const instructions = $('#instructions');
-const boardGame = $('#boardGame');
 
-play.on("mousedown", () => {
-    makeBoard();
-    if (play.text() === 'Play') {
-        play.text(`Restart`);
-    } else {
-        play.text('Play');
-    }
-    startGame();
-})
 
-const makeBoard = () => {
-    // boardgame.empty();
-    // console.log("ran");
+function createBoard() {
+    startCells.forEach((_cell, index) => {
+        const cellElement = document.createElement('div')
+        cellElement.classList.add('square')
+        cellElement.id = index
+        cellElement.addEventListener('click', addGo)
+        gameBoard.append(cellElement)
+    })
 
-    let count = 1;
+}
+createBoard()
 
-    for (let r = 0; r < 3; r++) {
-        let row = $(`<div/>`);
-        for (let c = 0; c < 3; c++) {
-            let button = $(`<button/>`, {
-                id: `${count}`,
-                class: `slot`
-            });
-            row.append($(button).clone().text(`?`));
-            count++;
-        }
-        $(boardGame).append(row);
-    }
+function addGo(e) {
+    const goDisplay = document.createElement('div')
+    goDisplay.classList.add(go)
+    e.target.append(goDisplay)
+    go = go === 'circle' ? 'cross' : 'circle'
+    infoDisplay.textContent = 'Next Turn is ' + go + ' take turn now.'
+    e.target.removeEventListener('click', addGo)
+    checkScore()
 }
 
-const startGame = () => {
-    let player1 = {};
-    let player2 = {};
+function checkScore() {
+    const allSquares = document.querySelector('.square')
 
-    const X = "X";
-    const O = "O";
-    const firstMove = Math.random() < 0.5 ? X : O;
-    currentPlayer = firstMove;
-    let move = 0;
-    let winner = false;
+    const winningCombos = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8],
+        [0, 3, 6], [1, 4, 7], [2, 5, 8],
+        [0, 4, 8], [2, 4, 6]
+    ];
 
-    instructions.prepend(`First move goes to: ${firstMove}`);
+
+    winningCombos.forEach(array => {
+        const circleWins = array.every(cell => allSquares.firstChild.classList.contains('circle'))
+
+        if (circleWins) {
+            infoDisplay.textContent = 'Circle Wins!!!!!!!!!!!!!!!!'
+            // allSquares.forEach(square => square.replaceWith(square.cloneNode(true)))
+            return
+        }
+
+    })
+
+    winningCombos.forEach(array => {
+        const crossWins = array.every(cell => allSquares.firstChild.classList.contains('cross'))
+
+        if (crossWins) {
+            infoDisplay.textContent = 'Cross Wins!!!!!!!!!!!!!!!!'
+            //allSquares.forEach(square => square.replaceWith(square.cloneNode(true)))
+            return
+        }
+
+    })
 
 }

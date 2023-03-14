@@ -1,5 +1,64 @@
-.slot {
-    border: solid rgb(49, 50, 62) 2px;
-    width: 10vw;
-    font-size: 48px;
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    font-size: x-large;
+}
+
+#gameboard {
+    width: 300px;
+    height: 300px;
+    background-color: navy;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.square {
+    width: 100px;
+    height: 100px;
+    background-color: beige;
+    border: solid 1px navy;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.circle {
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    border: 15px solid red;
+    box-sizing: border-box;
+}
+
+.cross {
+    height: 100px;
+    width: 100px;
+    position: relative;
+}
+
+.cross:before,
+.cross:after {
+    content: '';
+    position: absolute;
+    background-color: lime;
+}
+
+.cross:before {
+    left: 50%;
+    width: 30%;
+    margin-left: -15%;
+    height: 100%;
+}
+
+.cross:after {
+    top: 50%;
+    height: 30%;
+    margin-top: -15%;
+    width: 100%;
 }
